@@ -42,8 +42,10 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Now 'frontendUrl' is valid because we declared it above
-        configuration.setAllowedOrigins(List.of(frontendUrl));
+        // --- THE MAGIC FIX ---
+        // Instead of "AllowedOrigins" (strict), we use "AllowedOriginPatterns" (flexible)
+        // This allows localhost, Vercel, and everything else to work with Credentials.
+        configuration.setAllowedOriginPatterns(List.of("*"));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
